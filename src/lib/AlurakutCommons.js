@@ -59,6 +59,9 @@ AlurakutMenu.Wrapper = styled.header`
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
+    /* Overflow para quando a tela tiver com zoom no celular */
+    overflow-y: scroll;
+    height: 100%;
     z-index: 100;
     padding: 46px;
     bottom: 0;
@@ -244,26 +247,46 @@ AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
 // ================================================================================================================
 // OrkutNostalgicIconSet
 // ================================================================================================================
-export function OrkutNostalgicIconSet(props) {
+export function OrkutNostalgicIconSet(props,) {
   return (
     <OrkutNostalgicIconSet.List>
-      {[
-        { name: 'Recados', slug: 'recados', icon: 'book' },
-        { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-        { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-        { name: 'Fãs', slug: 'fas', icon: 'star' },
-        { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-      ].map(({ name, slug, icon }) => (
+      {/* {[
+        // a variavel cont é para cada incone ter um falor diferente
+        { name: 'Recados', slug: 'recados', icon: 'book',cont:3},
+        { name: 'Fotos', slug: 'fotos', icon: 'camera',cont:2},
+        { name: 'Videos', slug: 'videos', icon: 'video-camera',cont:10},
+        { name: 'Fãs', slug: 'fas', icon: 'star',cont:6},
+        { name: 'Mensagens', slug: 'mensagens', icon: 'email',cont:2},
+      ].map(({ name, slug, icon, cont}) => (
         <li key={`orkut__icon_set__${slug}`}>
           <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
             {name}
           </span>
           <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
             <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
-            {props[slug] ? props[slug] :12}
+            {props[slug] ? props[slug] :cont}
           </span>
         </li>
-      ))}
+      ))} */}
+      {/* MINHA ALTERAÇÃO PARA TER VALORES DIFERENTES */}
+      {[
+        // a variavel cont é para cada incone ter um falor diferente
+        { name: 'Recados', slug: 'recados', icon: 'book',cont:3},
+        { name: 'Fotos', slug: 'fotos', icon: 'camera',cont:2},
+        { name: 'Videos', slug: 'videos', icon: 'video-camera',cont:10},
+        { name: 'Fãs', slug: 'fas', icon: 'star',cont:6},
+        { name: 'Mensagens', slug: 'mensagens', icon: 'email',cont:2},
+      ].map(({ name, slug, icon, cont}) => (
+        <li key={`orkut__icon_set__${slug}`}>
+          <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
+            {name}
+          </span>
+          <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
+            <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
+            {props[slug] ? props[slug] :cont}
+          </span>
+        </li>
+      ))}{/* FIM DA MINHA ALTERAÇÃO PARA TER VALORES DIFERENTES */}
       {[
         { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
         { name: 'Legal', slug: 'legal', icon: 'cool' },
