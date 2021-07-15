@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
-import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet,AlurakutMenuProfileSidebar } from '../src/lib/AlurakutCommons';
+import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
+import ProfileFollowing from '../src/components/ProfileFollowing';
+
 
 function ProfileSidebar(propriedades) {
   return (
@@ -27,20 +29,49 @@ export default function Home() {
     title:"AluraKut",
     image: 'http://alurakut.vercel.app/logo.svg',
     link: 'https://discord.com/invite/mzxFNuCtzs',
-  }]);
-  const pessoasFavoritas = [
-    'juunegreiros',
-    'omariosouto',
-    'peas',
-    'rafaballerini',
-    'luizamarlene',
-    'williammago',
-    'gobila',
-  ]
+  },
+  {
+    id: '02',
+    title:"Lênin de Três",
+    image: 'https://static-media.hotmart.com/ogdXLfGqA48DnW-tK6jxelneAf8=/280x280/filters:quality(100)/content.hotmedia/image/b10fbeb7-4802-461e-9cfe-ec8bf02a8153.jpg?Expires=1626400591&Signature=R2BCYJl1XTKTDizfUR3Q9EDJsSHhxA8q6swYlMZ1NSgXrSLQeI1TMcAsLDJe0IvJ-q-15DeTTv2Wy8A4lm165nRGvWfasaijuBKQnyhdAic8yAWS5pXG88YOY0uQb7YvUZpPzpC15u3NqKWrgeBOwKiP-hMEliSWBkleKS1IdybteJzw4xKYFA58Xm-5fAYpjOzqNyb60mRLCMWY7v6XtiUcVac~7VZO973a8H5NP8YKFMjQMQbspD~cJHJ-C5SEIfvQVcniLWSTwh4Yy1xn5GZexIe6hQJJTADN7h0rcMVZXnl9UWCfdRpkVPRzN87GYE2RV02-pdlIz0d6kobbog__&Key-Pair-Id=APKAI5B7FH6BVZPMJLUQ',
+    link: 'https://discord.com/invite/mzxFNuCtzs',
+  },
+  {
+    id: '03',
+    title:"Alura Stars",
+    image: 'https://www.alura.com.br/assets/img/stars/logoIlustra.1622650220.svg',
+    link: 'https://www.alura.com.br/stars',
+  },
+  {
+    id: '04',
+    title:"Banidos do GitHub",
+    image: 'https://chainleak.com/wp-content/uploads/2019/07/GitHub-1024x576.png',
+    link: 'https://www.alura.com.br/imersao',
+  }
+]);
+
+  const followers_URL = "https://api.github.com/users/gobila/"
+  // const pessoasFavoritas = [
+  //   'juunegreiros',
+  //   'omariosouto',
+  //   'peas',
+  //   'rafaballerini',
+  //   'luizamarlene',
+  //   'williammago',
+  //   'gobila',
+  // ]
+  const [pessoas, setPessoas] =useState([])
 
 
-
-
+  useEffect(()=>{
+    fetch(followers_URL+'following').then((res)=>{
+      return res.json()
+    }).then((responseJ)=>{
+      setPessoas(responseJ)
+      
+    })
+  }, [])
+  console.log(pessoas)
   return (
     <>
       <AlurakutMenu githubUser={usuarioAleatorio} />
@@ -115,26 +146,12 @@ export default function Home() {
                 )
               })}
             </ul>
+            
+            <a>Todas as Comunidades</a>
           </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas da comunidade ({pessoasFavoritas.length})
-            </h2>
-            <ul>
-              {pessoasFavoritas.slice(0,6).map((itemAtual,) =>{
-                console.log(pessoasFavoritas )
-                return (
-                  <li  key={itemAtual}>
-                  <a href={`https://github.com/${itemAtual}`}>
-                    <img src={`https://github.com/${itemAtual}.png`} />
-                    <span>{itemAtual}</span>
-                  </a>
-                </li>
-              )
-            })}
-            </ul>
-            <a>Todas as pessoas</a>
-          </ProfileRelationsBoxWrapper>
+          {/* Pessoas */}
+          {/* <ProfileRelationsFollowing title="Seguindo" pessoas={pessoas}/> */}
+          <ProfileFollowing title="Seguindo" pessoas={pessoas}/>
         </div>
       </MainGrid>
     </>
