@@ -1,0 +1,24 @@
+//   {
+  //   id: '01',
+  //   title:"AluraKut",
+  //   image: 'http://alurakut.vercel.app/logo.svg',
+  //   link: 'https://discord.com/invite/mzxFNuCtzs',
+  // },
+  // {
+  //   id: '02',
+  //   title:"Lênin de Três",
+  //   image: 'https://static-media.hotmart.com/ogdXLfGqA48DnW-tK6jxelneAf8=/280x280/filters:quality(100)/content.hotmedia/image/b10fbeb7-4802-461e-9cfe-ec8bf02a8153.jpg?Expires=1626400591&Signature=R2BCYJl1XTKTDizfUR3Q9EDJsSHhxA8q6swYlMZ1NSgXrSLQeI1TMcAsLDJe0IvJ-q-15DeTTv2Wy8A4lm165nRGvWfasaijuBKQnyhdAic8yAWS5pXG88YOY0uQb7YvUZpPzpC15u3NqKWrgeBOwKiP-hMEliSWBkleKS1IdybteJzw4xKYFA58Xm-5fAYpjOzqNyb60mRLCMWY7v6XtiUcVac~7VZO973a8H5NP8YKFMjQMQbspD~cJHJ-C5SEIfvQVcniLWSTwh4Yy1xn5GZexIe6hQJJTADN7h0rcMVZXnl9UWCfdRpkVPRzN87GYE2RV02-pdlIz0d6kobbog__&Key-Pair-Id=APKAI5B7FH6BVZPMJLUQ',
+  //   link: 'https://discord.com/invite/mzxFNuCtzs',
+  // },
+  // {
+  //   id: '03',
+  //   title:"Alura Stars",
+  //   image: 'https://www.alura.com.br/assets/img/stars/logoIlustra.1622650220.svg',
+  //   link: 'https://www.alura.com.br/stars',
+  // },
+  // {
+  //   id: '04',
+  //   title:"Banidos do GitHub",
+  //   image: 'https://chainleak.com/wp-content/uploads/2019/07/GitHub-1024x576.png',
+  //   link: 'https://www.alura.com.br/imersao',
+  // }

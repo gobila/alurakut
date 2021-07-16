@@ -4,6 +4,7 @@ import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 import ProfileFollowing from '../src/components/ProfileFollowing';
+import { AsyncMode } from 'react-is';
 
 
 function ProfileSidebar(propriedades) {
@@ -24,31 +25,7 @@ function ProfileSidebar(propriedades) {
 
 export default function Home() {
   const usuarioAleatorio = 'gobila';
-  const [comunidades, setComunidades] = useState([{
-    id: '01',
-    title:"AluraKut",
-    image: 'http://alurakut.vercel.app/logo.svg',
-    link: 'https://discord.com/invite/mzxFNuCtzs',
-  },
-  {
-    id: '02',
-    title:"Lênin de Três",
-    image: 'https://static-media.hotmart.com/ogdXLfGqA48DnW-tK6jxelneAf8=/280x280/filters:quality(100)/content.hotmedia/image/b10fbeb7-4802-461e-9cfe-ec8bf02a8153.jpg?Expires=1626400591&Signature=R2BCYJl1XTKTDizfUR3Q9EDJsSHhxA8q6swYlMZ1NSgXrSLQeI1TMcAsLDJe0IvJ-q-15DeTTv2Wy8A4lm165nRGvWfasaijuBKQnyhdAic8yAWS5pXG88YOY0uQb7YvUZpPzpC15u3NqKWrgeBOwKiP-hMEliSWBkleKS1IdybteJzw4xKYFA58Xm-5fAYpjOzqNyb60mRLCMWY7v6XtiUcVac~7VZO973a8H5NP8YKFMjQMQbspD~cJHJ-C5SEIfvQVcniLWSTwh4Yy1xn5GZexIe6hQJJTADN7h0rcMVZXnl9UWCfdRpkVPRzN87GYE2RV02-pdlIz0d6kobbog__&Key-Pair-Id=APKAI5B7FH6BVZPMJLUQ',
-    link: 'https://discord.com/invite/mzxFNuCtzs',
-  },
-  {
-    id: '03',
-    title:"Alura Stars",
-    image: 'https://www.alura.com.br/assets/img/stars/logoIlustra.1622650220.svg',
-    link: 'https://www.alura.com.br/stars',
-  },
-  {
-    id: '04',
-    title:"Banidos do GitHub",
-    image: 'https://chainleak.com/wp-content/uploads/2019/07/GitHub-1024x576.png',
-    link: 'https://www.alura.com.br/imersao',
-  }
-]);
+  const [comunidades, setComunidades] = useState([]);
 
   const followers_URL = "https://api.github.com/users/gobila/"
   // const pessoasFavoritas = [
@@ -68,10 +45,33 @@ export default function Home() {
       return res.json()
     }).then((responseJ)=>{
       setPessoas(responseJ)
-      
+    })
+
+    // API GraphQL
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '6977b65171b9f1b991c7a40cdce3ce',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ "query": `query {
+        allCommunities {
+          id
+          title
+          imageUrl
+        }
+      }` })
+    })
+    .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+    .then((respostaCompleta) => {
+      const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+      console.log(comunidadesVindasDoDato)
+      setComunidades(comunidadesVindasDoDato)
     })
   }, [])
-  console.log(pessoas)
+
+
   return (
     <>
       <AlurakutMenu githubUser={usuarioAleatorio} />
@@ -85,7 +85,6 @@ export default function Home() {
             <h1 className="title">
               Bem vindo(a) 
             </h1>
-
             <OrkutNostalgicIconSet/>
           </Box>
 
@@ -97,15 +96,29 @@ export default function Home() {
               const dadosForm = new FormData(event.target);
 
               const comunidade ={
-                id: new Date().toISOString,
+                // id: new Date().toISOString,
                 title: dadosForm.get('title'),
-                image: dadosForm.get('image')
+                image_url: dadosForm.get('image'),
+                founder: usuarioAleatorio,
+                description: 'teste'
               }
 
-              const comunidadeAtualizada = [...comunidades, comunidade]
-              setComunidades(comunidadeAtualizada)
-
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade)
+              })
+              .then(async (response) => {
+                const dados = await response.json();
+                console.log(dados.registroCriado);
+                const comunidade = dados.registroCriado;
+                const comunidadesAtualizadas = [...comunidades, comunidade];
+                setComunidades(comunidadesAtualizadas)
+              })
             }}>
+
               <div>
                 <input placeholder="Qual o nome da sua comunidade?" name="title" aria-label="Qual o nome da sua comunidade?"/>
               </div>
@@ -138,8 +151,8 @@ export default function Home() {
               {comunidades.slice(0,6).map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
-                    <a href={itemAtual.link}>
-                      <img src={itemAtual.image} />
+                    <a href={itemAtual.title}>
+                      <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
                   </li>
