@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
+//components
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
@@ -27,7 +28,7 @@ export default function Home(props) {
   const usuarioGit = props.githubUser;
   const [comunidades, setComunidades] = useState([]);
 
-  const base_URL = "https://api.github.com/users/gobila/"
+  const base_URL = "https://api.github.com/users/"+usuarioGit+"/"
   // const pessoasFavoritas = [
   //   'juunegreiros',
   //   'omariosouto',
@@ -75,7 +76,7 @@ export default function Home(props) {
     .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
     .then((respostaCompleta) => {
       const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-      console.log(comunidadesVindasDoDato)
+      // console.log(comunidadesVindasDoDato)
       setComunidades(comunidadesVindasDoDato)
     })
   }, [])
@@ -85,7 +86,7 @@ export default function Home(props) {
     <>
       <AlurakutMenu githubUser={usuarioGit} />
       <MainGrid>
-        {/* <Box style="grid-area: profileArea;"> */}
+        
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSidebar githubUser={usuarioGit} />
         </div>
@@ -184,18 +185,31 @@ export default function Home(props) {
 export async function getServerSideProps(context){
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
-  const {githubUser} = jwt.decode(token);
   
-  // const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth',{
-  //   headers:{
-  //     Authorization: token
-  //   }
-  // }).then((res)=>{
-  //   return res.json()
-  // })
-  // console.log(githubUser)
+  const {isAuthenticated} = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers:{
+      Authorization: token
+    }
+  }).then((res)=> {
+    return res.json()
+  })
+  // const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    //   headers:{
+      //     Authorization: token,
+      //   },
+      // }).then((res)=> res.json())//Não precisa passar o return
+  if(!isAuthenticated){
+    return{
+      redirect:{
+        destination:'/login',
+        permanent: false
+      }
+    }
+  }
   
-  // const {githubUser} = token.json()
+      
+      
+  const { githubUser } = jwt.decode(token);
   return{
     props:{
       githubUser
