@@ -4,7 +4,7 @@ import nookies from 'nookies';
 
 export default function LoginBox(){
     const router = useRouter()
-    const [githubUser, setGithubUser]=useState([])
+    const [githubUser, setGithubUser]=useState('')
     return(
         <section className="formArea">
           <form className="box" onSubmit={(event)=>{
@@ -23,8 +23,8 @@ export default function LoginBox(){
                       path:'/',
                       maxAge: 86400*2
                   })
+                  router.push('/')//roteamento do next
               })
-              router.push('/')//roteamento do next
           }}>
             <p>
               Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!

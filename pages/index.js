@@ -8,6 +8,8 @@ import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet 
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 import ProfileFollowing from '../src/components/ProfileFollowing';
 
+
+
 function ProfileSidebar(propriedades) {
   return (
     <Box as="aside">
@@ -25,19 +27,13 @@ function ProfileSidebar(propriedades) {
 }
 
 export default function Home(props) {
-  const usuarioGit = props.githubUser;
+  const usuarioGit =props.githubUser;
   const [comunidades, setComunidades] = useState([]);
+  console.log('usuario'+usuarioGit)
+  
 
-  const base_URL = "https://api.github.com/users/"+usuarioGit+"/"
-  // const pessoasFavoritas = [
-  //   'juunegreiros',
-  //   'omariosouto',
-  //   'peas',
-  //   'rafaballerini',
-  //   'luizamarlene',
-  //   'williammago',
-  //   'gobila',
-  // ]
+  const base_URL = "https://api.github.com/users/"+usuarioGit+'/'
+
   const [pessoas, setPessoas] =useState([])
 
   const [followers, setFollowers] = useState()
@@ -56,7 +52,7 @@ export default function Home(props) {
     }).then((response)=>{
       setFollowers(response.length)
     })
-
+    
     // API GraphQL
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
@@ -76,7 +72,6 @@ export default function Home(props) {
     .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
     .then((respostaCompleta) => {
       const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-      // console.log(comunidadesVindasDoDato)
       setComunidades(comunidadesVindasDoDato)
     })
   }, [])
@@ -90,6 +85,7 @@ export default function Home(props) {
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSidebar githubUser={usuarioGit} />
         </div>
+        
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
             <h1 className="title">
@@ -176,43 +172,37 @@ export default function Home(props) {
           {/* <ProfileRelationsFollowing title="Seguindo" pessoas={pessoas}/> */}
           <ProfileFollowing title="Seguindo" pessoas={pessoas} titleSeg="Seguidores" followers={followers}/>
         </div>
+      
+      
       </MainGrid>
     </>
   )
 }
 
 
-export async function getServerSideProps(context){
-  const cookies = nookies.get(context);
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
   const token = cookies.USER_TOKEN;
-  
-  const {isAuthenticated} = await fetch('https://alurakut.vercel.app/api/auth', {
-    headers:{
-      Authorization: token
-    }
-  }).then((res)=> {
-    return res.json()
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+        Authorization: token
+      }
   })
-  // const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
-    //   headers:{
-      //     Authorization: token,
-      //   },
-      // }).then((res)=> res.json())//Não precisa passar o return
-  if(!isAuthenticated){
-    return{
-      redirect:{
-        destination:'/login',
-        permanent: false
+  .then((resposta) => resposta.json())
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
       }
     }
   }
-  
-      
-      
+
   const { githubUser } = jwt.decode(token);
-  return{
-    props:{
+  return {
+    props: {
       githubUser
-    }
+    }, // will be passed to the page component as props
   }
-}
+} 
