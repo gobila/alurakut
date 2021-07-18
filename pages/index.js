@@ -166,7 +166,7 @@ export default function Home(props) {
               })}
             </ul>
             
-            <a>Todas as Comunidades</a>
+            <a href="/comunidades">Todas as Comunidades</a>
           </ProfileRelationsBoxWrapper>
           {/* Pessoas */}
           {/* <ProfileRelationsFollowing title="Seguindo" pessoas={pessoas}/> */}

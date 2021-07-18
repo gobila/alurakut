@@ -62,26 +62,10 @@ export default function Home(props) {
           <ProfileSidebar githubUser={usuarioGit} />
         </div>
 
-        <div className="">
-          <Box>
-            <h2>Minhas comunidades</h2>
-            <hr/>
-            <div className="tableCommunity commutyArea">
-              <div className='boxtable'>
-                  {comunidades.map((items)=>{
-                    return(
-                      <a className='boxtr'>
-                        <div key={comunidades.id} className='tdImg'>
-                          <img src={items.imageUrl} className="communityList"/>
-                        </div>
-                        <div className="td">
-                          <p>{items.title}</p>
-                        </div>
-                      </a>
-                    )
-                  })}
-                </div>
-              </div>
+        <div style={{placeContent:'center', textAlign:'center'}}>
+          <Box >
+            <img src="https://alurakut.vercel.app/logo.svg" style={{margin:'auto'}}/>
+            <h2>Desculpe, ainda estamos construindo uma parte do AluraKut</h2>
           </Box>
         </div>
       </MainComunidades>
